@@ -1,0 +1,49 @@
+﻿@using BookTracker.Models
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap-theme.min.css" />
+    <title>Vote</title>
+</head>
+<body class="container">
+    <div class="panel panel-primary">
+        @if (ViewBag.SelectedBook == null)
+        {
+            <h4 class="panel-heading">Vote for your favorite book</h4>
+        }
+        else
+        {
+            <h4 class="panel-heading">Change vote from @ViewBag.SelectedBook</h4>
+        }
+        <div class="panel-body">
+
+            @using (Html.BeginForm())
+            {
+                @Html.DropDownList("book", new SelectList(Enum.GetValues(typeof(Book))), "Choose a book", new { @class = "form-control" })
+                <div>
+                    <button class="btn btn-primary center-block" type="submit">Vote</button>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <hr />
+        <h5 class="panel-heading">Results</h5>
+        <table class="table table-condensed table-striped">
+            <tr><th>Book</th><th>Votes</th></tr>
+            @foreach (Book book in Enum.GetValues(typeof(Book)))
+            {
+                <tr><td>@book</td><td>@Votes.GetVotes(book)</td></tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
